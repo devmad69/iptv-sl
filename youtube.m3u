@@ -1,10 +1,13 @@
 #EXTM3U x-tvg-url="https://github.com/botallen/epg/releases/download/latest/epg.xml"
-# Refreshed at 2026-02-11 11:36:20 UTC
+# Refreshed at 2026-02-11 11:39:23 UTC
 
 #EXTINF:-1 group-title="Sri Lanka" tvg-logo="https://upload.wikimedia.org/wikipedia/commons/8/85/Derana_Logo.png" tvg-id="", Ada Derana Live
 https://raw.githubusercontent.com/benmoose39/YouTube_to_m3u/main/assets/moose_na.m3u
 
 #EXTINF:-1 group-title="Sri Lanka" tvg-logo="https://cdn.newsfirst.lk/english-uploads/2019/05/85ce8002-352159_550x300_crop.jpg" tvg-id="", News First
+https://raw.githubusercontent.com/benmoose39/YouTube_to_m3u/main/assets/moose_na.m3u
+
+#EXTINF:-1 group-title="Sri Lanka" tvg-logo="https://www.hirutv.lk/assets/images/logo.png" tvg-id="", Hiru TV HD
 https://raw.githubusercontent.com/benmoose39/YouTube_to_m3u/main/assets/moose_na.m3u
 
 #EXTINF:-1 group-title="Sri Lanka" tvg-logo="https://yt3.ggpht.com/8NktP275r6N2gJoiaUKnpDWCLZk8-ljM2VVB5WqJO2l-yVVyQ2fG6OHRg9WLdFaLCg63XBlpy9s=s176-c-k-c0x00ffffff-no-rj-mo" tvg-id="", Karma TV
