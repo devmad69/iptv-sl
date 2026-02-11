@@ -1,0 +1,60 @@
+# This is a basic workflow to help you get started with Actions
+
+name: M3U generator
+
+# Controls when the action will run. 
+on:
+  schedule:
+    # Run at :01 past each hour from 00:00 to 17:59 UTC
+    # (Approx 05:31 AM to 11:01 PM Sri Lanka Time)
+    # 18 runs per day × ~44 sec = ~13 min/day = ~6.5 hours/month
+    - cron: '1 0-17 * * *'
+
+  pull_request:
+    branches:
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      # Runs a set of commands using the runners shell 
+      - name: config
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+      - name: Main
+        run: |
+          pwd
+          chmod +x autorun.sh
+          timeout 30 ./autorun.sh
+        env:
+          YT_COOKIES: ${{ secrets.YT_COOKIES }}
+
+      - name: git add
+        run: |
+          git add -A
+          ls -la
+
+      - name: commit & push
+        run: |
+          git diff-index --quiet HEAD || git commit -m "links are updated"
+          git push
