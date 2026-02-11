@@ -56,24 +56,57 @@ def grab_with_timeout(url, timeout_sec=3):
                         'no_warnings': True,
                         'geo_bypass': True,
                         'format': 'best',
-                        'socket_timeout': 6,
+                        'socket_timeout': 5,
                         'http_headers': {
                             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
                         }
                     }
                     
-                    # Add cookies if available from GitHub Actions secret (YT_COOKIES should contain the cookies.txt formatted content)
+                    # Add cookies if available from GitHub Actions secret
+                    # Support raw cookies.txt in YT_COOKIES or base64-encoded content in YT_COOKIES_B64
                     cookies_env = os.environ.get('YT_COOKIES')
+                    cookies_b64 = os.environ.get('YT_COOKIES_B64')
                     temp_cookie_path = None
-                    if cookies_env:
-                        import tempfile
-                        # Write the cookie text to a secure temporary file for yt-dlp
-                        tf = tempfile.NamedTemporaryFile(mode='w', delete=False)
-                        tf.write(cookies_env)
-                        tf.flush()
-                        temp_cookie_path = tf.name
-                        tf.close()
-                        ydl_opts['cookiefile'] = temp_cookie_path
+                    cookie_text = None
+                    if cookies_b64 and not cookies_env:
+                        try:
+                            import base64
+                            cookie_text = base64.b64decode(cookies_b64).decode('utf-8')
+                        except Exception:
+                            print('Warning: YT_COOKIES_B64 is not valid base64', file=sys.stderr)
+                    elif cookies_env:
+                        cookie_text = cookies_env
+
+                    # Basic validation: look for youtube domain or netscape-like lines
+                    if cookie_text:
+                        good = False
+                        try:
+                            lines = [l for l in cookie_text.splitlines() if l.strip()]
+                            if any('.youtube.com' in l for l in lines):
+                                good = True
+                            # Netscape format typically has at least 7 fields separated by whitespace or tabs
+                            if not good and any(len(l.split()) >= 6 for l in lines[:5]):
+                                good = True
+                        except Exception:
+                            good = False
+
+                        if not good:
+                            print('Warning: YT_COOKIES secret does not look like a valid cookies.txt file; yt-dlp may still reject it', file=sys.stderr)
+
+                        if good:
+                            import tempfile
+                            tf = tempfile.NamedTemporaryFile(mode='w', delete=False)
+                            tf.write(cookie_text)
+                            tf.flush()
+                            temp_cookie_path = tf.name
+                            tf.close()
+                            ydl_opts['cookiefile'] = temp_cookie_path
+                            # Don't print cookie contents; instead print benign confirmation
+                            try:
+                                domain_sample = lines[0].split()[0]
+                            except Exception:
+                                domain_sample = 'unknown'
+                            print(f"Cookies loaded (first domain: {domain_sample})", file=sys.stderr)
                     
                     try:
                         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
@@ -119,7 +152,7 @@ def grab(url):
     Extract stream URL with timeout protection and cache results.
     """
     cache = load_cache()
-    stream_url = grab_with_timeout(url, timeout_sec=6)
+    stream_url = grab_with_timeout(url, timeout_sec=5)
 
     if stream_url:
         print(stream_url)
