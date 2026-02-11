@@ -1,0 +1,14 @@
+~~ DO NOT EDIT THE FIRST 2 LINES
+~~ FORMAT: <channel name> | <group name> | <logo> | <tvg-id>
+
+Ada Derana Live | Sri Lanka | https://upload.wikimedia.org/wikipedia/commons/8/85/Derana_Logo.png |
+https://www.youtube.com/c/adaderananews/live
+
+News First | Sri Lanka | https://cdn.newsfirst.lk/english-uploads/2019/05/85ce8002-352159_550x300_crop.jpg |
+https://www.youtube.com/c/newsfirstsrilanka/live
+
+Rupawahini | Sri Lanka | https://upload.wikimedia.org/wikipedia/en/thumb/2/28/Logo_of_Sri_Lanka_Rupavahini_Corporation.png/330px-Logo_of_Sri_Lanka_Rupavahini_Corporation.png
+https://www.youtube.com/@rupavahiniLiveStream/live
+
+Karma TV | Sri Lanka | https://yt3.ggpht.com/8NktP275r6N2gJoiaUKnpDWCLZk8-ljM2VVB5WqJO2l-yVVyQ2fG6OHRg9WLdFaLCg63XBlpy9s=s176-c-k-c0x00ffffff-no-rj-mo
+https://www.youtube.com/@karmalivestreaming
